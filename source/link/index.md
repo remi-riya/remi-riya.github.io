@@ -14,8 +14,10 @@ aside: false
 4.您的网站不要出现不安全提示！
 {% endnote %}
 
-#  我的友链：
+# 我的友链：
+
 {% note success simple %}
+
 ```yaml
 - name: Echocbx
   link: https://ezgx.site/
@@ -23,6 +25,7 @@ aside: false
   descr: 欢迎光临异次元
   siteshot: https://pic.imgdb.cn/item/64061c93f144a01007f083cb.jpg
 ```
+
 {% endnote %}
 
 <!-- 不要删除以下html部分
@@ -42,11 +45,13 @@ aside: false
 # 申请友链
 {% note primary simple %}
 <center style="width:fit-content;margin:auto;">
+
 {% btns rounded grid5 %}
 {% cell 快速申请 (默认样式), javascript:leonus.linkCom(), fas fa-circle-plus %}
 {% cell 快速申请 (Butterfly), javascript:leonus.linkCom(&quot;bf&quot;), fas fa-circle-plus %}
 {% endbtns %}
 </center>
+
 {% endnote %}
 <link rel="stylesheet" href="/css/kslink.css">
 <script src="/js/kslink.js"></script>
