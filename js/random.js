@@ -1,1 +1,1 @@
-var posts=["2023/05/23/hello-world/","2023/05/28/第二次逆向题解/","2023/05/16/第一次逆向题解/"];function toRandomPost(){window.open('/'+posts[Math.floor(Math.random() * posts.length)],"_self");};
+var posts=["2023/05/23/hello-world/","2023/05/16/第一次逆向题解/","2023/05/28/第二次逆向题解/"];function toRandomPost(){window.open('/'+posts[Math.floor(Math.random() * posts.length)],"_self");};
