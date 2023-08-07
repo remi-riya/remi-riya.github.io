@@ -1,8 +1,8 @@
 {
     "commentTranslate.source": "intellsmi.comment-translate-ali.cloud",
     "commentTranslate.multiLineMerge": true,
-    "commentTranslate.translationAli.accessKeyId": "LTAI5tFxPA7oxGT9Rae8SqVt",
-    "commentTranslate.translationAli.accessKeySecret": "knzQ9vItWuLxVjdkUnka2tIg7AiihC",
+    "commentTranslate.translationAli.accessKeyId": "",
+    "commentTranslate.translationAli.accessKeySecret": "",
     "commentTranslate.maxTranslationLength": 1000,
     "commentTranslate.ignore": [
 
