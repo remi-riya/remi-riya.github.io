@@ -1,0 +1,18 @@
+{
+    "commentTranslate.source": "intellsmi.comment-translate-ali.cloud",
+    "commentTranslate.multiLineMerge": true,
+    "commentTranslate.translationAli.accessKeyId": "",
+    "commentTranslate.translationAli.accessKeySecret": "",
+    "commentTranslate.maxTranslationLength": 1000,
+    "commentTranslate.ignore": [
+
+        {
+            "languageId": "javascript,typescript,javascriptreact,typescriptreact",
+            "regular": "[\\*\\s]+"
+        },
+        {
+            "languageId": "dart",
+            "regular": "[\\s|/]+"
+        }
+    ]
+}
