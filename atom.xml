@@ -6,7 +6,7 @@
   <link href="https://remi-riya.github.io/atom.xml" rel="self"/>
   
   <link href="https://remi-riya.github.io/"/>
-  <updated>2023-11-23T11:21:20.955Z</updated>
+  <updated>2023-11-28T14:57:23.346Z</updated>
   <id>https://remi-riya.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解决头歌禁止复制粘贴</title>
+    <link href="https://remi-riya.github.io/2023/11/27/%E8%A7%A3%E5%86%B3%E5%A4%B4%E6%AD%8C%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/"/>
+    <id>https://remi-riya.github.io/2023/11/27/%E8%A7%A3%E5%86%B3%E5%A4%B4%E6%AD%8C%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/</id>
+    <published>2023-11-27T07:14:34.000Z</published>
+    <updated>2023-11-28T14:57:23.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>相信被头歌的禁止复制粘贴恶心到了的人肯定不止我一个，这次写一个链表的题，每一关都要用到上一关的代码，每一关都要重新把4种构造函数和4个功能函数重新打一遍，只能说很符合我对头歌的印象😅😅😅。<br>于是本着偷懒顺便造福大众的想法，我开始寻找解决的办法。经过一天一夜的尝试与搜索，终于找到了一种解决办法：调用系统API模拟键盘输入。</p><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>如何调用系统API呢？如果是大佬当然有无数的方法，但我们作为小白，选择最简单的方法就好了，那就是我们无敌的Python（撒花）</p><p>首先，安装<code>PyWinHook</code>和<code>PyUserInput</code><br><code>PyWinHook</code>是Python的一个第三方库，可以对键盘、鼠标进行监听，<code>PyUserInput</code>可以模拟键盘鼠标输入。<br><a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#pywinhook">https://www.lfd.uci.edu/~gohlke/pythonlibs/#pywinhook</a><br>在网址中找到对应的版本下载，如我的Python版本是<code>3.10.10 64bit</code>，那么就下载<code>pyWinhook‑1.6.2‑cp310‑cp310‑win_amd64.whl</code>，<code>cp310</code>表示<code>3.10</code>，<code>amd64</code>表示64位。<br>Python版本可以在命令行输入<code>python</code>查看，或者如果用的vscode可以直接在任意Python文件界面的右下角看到。</p><p>下载完毕后，打开文件夹，右键刚下载的文件，复制文件路径。然后在命令行中输入</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install 路径</span><br><span class="line">pip install PyUserInput</span><br></pre></td></tr></table></figure><p>这样，我们就安装好了需要的第三方库，可以开始愉快地偷懒了ヾ(≧▽≦*)o<br>。<br>。<br>。</p><hr><p>本来应该是这样的……但实际用了之后，我才发现这玩意跑起来跟我想的根本不一样。因为遇到了一大障碍——代码补全。<br>本来方便敲代码地代码补全，在这个时候却起了反作用。由于编辑器自动补全括号，自动缩进，就导致原本正常的代码打出来之后就变得，嗯……一言难尽。只能说，作为一名程序员，在看到这样的代码时，本能地产生了一种恐惧。<br>然后，我想着只要先对字符串进行一下修改，比如把会自动补全的<code>&#125;</code>之类的去掉，删去部分回车和空格等。再然后，就陷入了长达一天的修改与尝试的循环（一天一夜里这个占了一天）……头歌的代码补全绝对是我见过的最魔幻的东西，我打一个<code>&#125;</code>它就再给我补一个，我不打<code>&#125;</code>它也不补，我打一个回车能变成两个回车，一个制表变成两个制表，零个制表还是零个制表……一天下来，我仿佛见证了生命进化的万千变化，整个人的精神都达到了新的高度<del>（血压）</del>。</p><p>那么说回正题，经过一天的尝试，最终找到了一种稍微正常的处理方法，能让打出来的代码没有那么抽象，以下是代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pykeyboard <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> pymouse <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">m = PyMouse()  <span class="comment"># 建立鼠标对象</span></span><br><span class="line">k = PyKeyboard()  <span class="comment"># 建立键盘对象</span></span><br><span class="line"></span><br><span class="line">time.sleep(<span class="number">3</span>)  <span class="comment"># 延迟几秒以移动鼠标</span></span><br><span class="line"></span><br><span class="line">str_in = <span class="string">&#x27;&#x27;&#x27;#include &quot;ArrayList.h&quot;</span></span><br><span class="line"><span class="string">ArrayList::ArrayList()</span></span><br><span class="line"><span class="string">:data&#123;new int[1010]&#125;, capacity&#123;0&#125;, List(0)&#123;</span></span><br><span class="line"><span class="string">    std::cout &lt;&lt; size &lt;&lt; std::endl;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">ArrayList::ArrayList()</span></span><br><span class="line"><span class="string">:data&#123;new int[1010]&#125;, capacity&#123;0&#125;, List(0)&#123;</span></span><br><span class="line"><span class="string">    std::cout &lt;&lt; size &lt;&lt; std::endl;</span></span><br><span class="line"><span class="string">    for (int i = 0; i &lt; n; ++i) &#123;</span></span><br><span class="line"><span class="string">        cout &lt;&lt; fuck;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span><span class="comment"># 粘贴代码，最好与示例格式一致</span></span><br><span class="line">str_in = str_in.replace(<span class="string">&#x27;  &#x27;</span>, <span class="string">&#x27;&#x27;</span>) </span><br><span class="line">str_in = str_in.replace(<span class="string">&#x27;\n&#125;&#x27;</span>, <span class="string">&#x27;&#125;\n&#x27;</span>) <span class="comment"># 玄学操作</span></span><br><span class="line">k.type_string(str_in)</span><br></pre></td></tr></table></figure><p>这样处理后，效果差不多是这样<img src="https://remi-riya-img.oss-cn-beijing.aliyuncs.com/20231128221324.png" alt="res"><br>相信我，这已经是最正常的一个版本了，没有超出屏幕的缩进，没有多出来的空行，没有多出来的大括号，相比于其他版本，简直就是奈亚子与奈亚拉托提普相比。</p><p>当然，如果有人有足够的耐心、时间，也可以寻找一下更优的办法，找到了记得踢我一脚，反正我是不想尝试了……</p><h2 id="花絮"><a href="#花絮" class="headerlink" title="花絮"></a>花絮</h2><p><img src="https://remi-riya-img.oss-cn-beijing.aliyuncs.com/20231128222233.png" alt="err">（失败尝试……）</p><hr><p>经过这次事件我才发现，头歌的格式化代码功能会把头文件引入的<code>#include</code>格式化到宏定义<code>#define</code>的后面，还会把<code>-&gt;</code>符号变成<code>- &gt;</code>导致编译错误……本来以为把<code>n</code>代码补全为<code>using namespace</code>已经够逆天了，没想到还有高手……</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;相信被头歌的禁止复制粘贴恶心到了的人肯定不止我一个，这次写一个链表的题，每一关都要用到上一关的代码，每一关都要重新把4种构造函数和4个功能函数重新打一遍，只能说很符合我对头歌的印象😅😅😅。&lt;br&gt;于是本着偷懒顺便造福大众的想法，我开始寻找解决的办法。经过一天一夜的尝试</summary>
+      
+    
+    
+    
+    <category term="实用" scheme="https://remi-riya.github.io/categories/%E5%AE%9E%E7%94%A8/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Splay树</title>
@@ -119,33 +141,6 @@
     <category term="数据结构" scheme="https://remi-riya.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="入门" scheme="https://remi-riya.github.io/tags/%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第二次逆向题解</title>
-    <link href="https://remi-riya.github.io/2023/05/28/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E9%80%86%E5%90%91%E9%A2%98%E8%A7%A3/"/>
-    <id>https://remi-riya.github.io/2023/05/28/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E9%80%86%E5%90%91%E9%A2%98%E8%A7%A3/</id>
-    <published>2023-05-28T08:53:03.000Z</published>
-    <updated>2023-11-25T09:47:00.893Z</updated>
-    
-    <content type="html"><![CDATA[<p>话不多说，直接开始  </p><h2 id="xor"><a href="#xor" class="headerlink" title="xor"></a>xor</h2><p>下载下来有一个<code>xor</code>的无后缀文件和一个叫<code>_MACOSX</code>的文件夹，里面是一个叫<code>._xor</code>的文件，先查壳<br><img src="xor.png" alt="xor"><br><code>._xor</code>是一个二进制文件，就不放截图了<del>省内存</del><br>用ida打开<code>xor</code>文件<br><img src="main.png" alt="main"><br>用notepad—打开<code>._xor</code>文件<br><img src="xor1.png" alt="xor1"><br>二进制文件有点意义不明，先看主函数，还是熟悉的<code>strncmp</code>函数，可以看到，输入的字符串是<code>_b</code><br>从前面的程序可以看出flag长度为33，输入的字符串每一个字符跟前一个字符异或后才跟<code>global</code>比较，这个字符串的值也很好找，直接点就行<br><img src="str.jpg" alt="str"><br>因为一按截图键窗口就没了，所以只能用手机拍照<br>那么接下来只要找出符合的输入就行了，因为异或的自反性，要还原一个字符只需将其与前一个字符异或即可<br><img src="flag.png" alt="flag"><br>最终flag为<code>QianQiuWanDai_YiTongJiangHu</code><br>不得不说，这个<code>global</code>字符串是真的抽象，一堆转义，眼睛都要看瞎了……<br><del>所以那个二进制文件到底有什么用</del>  </p><h2 id="helloword"><a href="#helloword" class="headerlink" title="helloword"></a>helloword</h2><p><del>是不是少了个l</del><br>下载下来一个apk文件，用jadx打开，找主函数，直接就能看到flag，虽然看不懂java<br><img src="helloword.png" alt="main"></p><h2 id="reverse3"><a href="#reverse3" class="headerlink" title="reverse3"></a>reverse3</h2><p>之前写过了，偷个懒</p><h2 id="不一样的flag"><a href="#不一样的flag" class="headerlink" title="不一样的flag"></a>不一样的flag</h2><p>一个exe文件，先查壳，少见的32位应用，无壳。直接打开<br><img src="de.main.png" alt="main"><br>大概翻译一下，一个while循环不断输入一个数字，根据输入改变相应的值，以达到最终结果，所以一步一步的走就行了<br>然后……就不会了</p><hr><p>从题解来看，这题是一个走迷宫题目，迷宫就是<code>v3</code>字符串的内容，即</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*1111</span><br><span class="line">01000</span><br><span class="line">01010</span><br><span class="line">00010</span><br><span class="line">1111#</span><br></pre></td></tr></table></figure><p>数字对应走法，题目中已经给出了提示，走迷宫就行<br>flag为<code>222441144222</code>  </p><hr><p>写这题是困扰我最久的就是为什么最后判定时用v7字符串数组坐标要-41，因为栈的生长方向是自顶向下，那么先定义的v3字符串地址应该比v7要大，如果以v3为基准引用v7的元素应该是+41，最后在网上找到了解答<br><img src="stack.png" alt="stack"><br>由于栈溢出的保护机制，入栈顺序与定义顺序相反，所以后定义的v7地址反而比v3要大，这样就说得通了。<br>虽然其实可以直接从声明后面的注释看出地址<del>其实看不懂</del>，但知道原因总是好的</p><h2 id="SimpleRev"><a href="#SimpleRev" class="headerlink" title="SimpleRev"></a>SimpleRev</h2><p>先查壳，64位无壳，直接打开<br><img src="simplemain.png" alt="main"><br>题目的主函数逐渐开始意义不明……好像找不到什么有用的信息，先看看<code>decty</code>函数和<code>Exit</code>函数<br><img src="decry.png" alt="decry"><br>然后再<code>decry</code>函数里看到了一句Congratulation，不出意外的话到这里就说明找到flag了（<code>Exit</code>函数里啥都没有，应该是没用的）<br>再看回前面，好像没有什么看不懂的地方，直接暴力写出所有变量<br>经过前面一些语句的运行，<code>key</code>字符串为<code>adsfkslcdn</code>，<code>text</code>字符串变为<code>killswodah</code><br>再看后面的输入的部分，输入回车（10）时退出循环开始判定，空格（32）时v2++，然后就是类似解码的过程，根据输入的字符和<code>key</code>字符串构造最后用来比较的字符串，只需一步一步来<br><img src="decryc.png" alt="decry"><br>（因为没看懂有什么特殊含义，就直接暴力了）<br>最终flag为<code>KLDQCOZFDU</code>  </p><p>然后就错了……</p><hr><p>原因：数据存储方式分为大端序和小端序两种，x86架构（常见）采用小端序，即将低位数据存储在低地址处，powerPC架构（不常见）、网络协议采用大端序，跟小端序相反。如果是存储字符串那么两者没有区别（字符串开头地址较低），但若是存储其他的大于一字节的数据，那么就会不一样。比如存储short（在现在的电脑上一般为4字节，为了方便当成2字节）类型的1<code>00000000 00000001</code>，那么在小端序中存储就是<code>00000000 00000001</code>,而大端序则为<code>00000001 00000000</code>（按地址从高到低算）。而题目中对字符串进行赋值时在后面加了<code>LL</code>（看到了，但不知道有什么区别），即转化为long long型，所以按小端序存储即为<code>77 6F 64 61 68</code>，而字符串是从低到高看，所以转化为字符串应为<code>68 61 64 6F 77</code>，也就是倒过来，正确的<code>key</code>为<code>adsfkndcls</code>，<code>text</code>为<code>killshadow</code>，改了之后程序就能运行出正确的flag，为<code>KLDQCUDFZO</code>。<br>（这鬼设定卡我一晚上，吐了🤮）  </p><h2 id="JAVA逆向解密"><a href="#JAVA逆向解密" class="headerlink" title="JAVA逆向解密"></a>JAVA逆向解密</h2><p>先查壳（虽然不知道需不需要）<br><img src="java.png" alt="java"><br>用jadx打开<br><img src="javamain.png" alt="main"><br>根本看不懂java……  </p><p>在同为计算机系的兄弟的帮助下，大概知道了意思，就是输入字符串，改变一下跟<code>key</code>比较，直接编程就行<br><img src="javaflag.png" alt="flag"><br>最终flag为<code>This_is_the_flag_!</code>  </p><h2 id="GXYCTF2019-luck-guy"><a href="#GXYCTF2019-luck-guy" class="headerlink" title="[GXYCTF2019]luck_guy"></a>[GXYCTF2019]luck_guy</h2><p>查壳，64位无壳，直接打开<br><img src="luckymain.png" alt="main"><br>主函数没有有用信息，但可以找到一个<code>get_flag</code>函数，可以猜测这个函数是关键<br><img src="getflag.png" alt="get_flag"><br>其中，<code>rand</code>函数用于生成伪随机数，<code>f1</code>可以直接找到，为<code>GXY&#123;do_not_</code>,f2在<code>case4</code>中被赋值，在<code>case5</code>中被改变，而flag<code>s</code>由<code>f1 f2</code>拼接而成，只要敲个代码就行（同样由于小端序存储，字符串要倒过来）<br><img src="lucflag.png" alt="flag" title="其实是照着网上敲的，python早忘的差不多了"><br>最终flag为<code>do_not_hate_me</code></p><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>肝不动了😵<br><img src="kelala.jpg" alt="kelala"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;话不多说，直接开始  &lt;/p&gt;
-&lt;h2 id=&quot;xor&quot;&gt;&lt;a href=&quot;#xor&quot; class=&quot;headerlink&quot; title=&quot;xor&quot;&gt;&lt;/a&gt;xor&lt;/h2&gt;&lt;p&gt;下载下来有一个&lt;code&gt;xor&lt;/code&gt;的无后缀文件和一个叫&lt;code&gt;_MACOSX&lt;</summary>
-      
-    
-    
-    
-    <category term="题解" scheme="https://remi-riya.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
-    
-    
-    <category term="入门" scheme="https://remi-riya.github.io/tags/%E5%85%A5%E9%97%A8/"/>
-    
-    <category term="逆向" scheme="https://remi-riya.github.io/tags/%E9%80%86%E5%90%91/"/>
     
   </entry>
   
