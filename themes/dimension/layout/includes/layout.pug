@@ -1,13 +1,15 @@
-- var htmlClassHideAside = theme.aside.enable && theme.aside.hide ? 'hide-aside' : ''
-- page.aside = is_archive() ? theme.aside.display.archive: is_category() ? theme.aside.display.category : is_tag() ? theme.aside.display.tag : page.aside
+if theme
+  - var htmlClassHideAside = theme.aside.enable && theme.aside.hide ? 'hide-aside' : ''
+//- page.aside = is_archive() ? theme.aside.display.archive: is_category() ? theme.aside.display.category : is_tag() ? theme.aside.display.tag : page.aside
 - var hideAside = !theme.aside.enable || page.aside === false ? 'hide-aside' : ''
 - var pageType = is_post() ? 'post' : 'page'
+- var current_page = page.path
 
 doctype html
-html(lang=config.language class=htmlClassHideAside)
+html(lang=config.language class=htmlClassHideAside) 
   head
     link(rel='stylesheet' type='text/css' href='/css/nerd.css')
-    link(rel='stylesheet' type='text/css' href='/css/loadingcar.css')
+    link(rel='stylesheet' type='text/css' href='/css/loading.css')
     link(rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/hexo-butterfly-swiper-marcus/lib/skills.min.css')
     link(rel='preload' as='style' type='text/css' href='/css/nerd.css')
     link(rel='preload' as='font' type='font/ttf' href='/fonts/font.woff2' crossorigin='anonymous')
@@ -17,7 +19,7 @@ html(lang=config.language class=htmlClassHideAside)
     script(async='' src='https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js')
     script(async='' src='https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/index.js')
     script(async='' data-pjax='' src='/js/linksbar.js')
-    script(async='' src='https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/carousel-touch.min.js')
+    //- script(async='' src='https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/carousel-touch.min.js')
     include ./head.pug
   body
     if theme.preloader.enable

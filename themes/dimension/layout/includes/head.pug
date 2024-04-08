@@ -1,5 +1,5 @@
 - var pageTitle
-- is_archive() ? page.title = findArchivesTitle(page, theme.menu, date) : ''
+//- - is_archive() ? page.title = findArchivesTitle(page, theme.menu, date) : ''
 - if (is_tag()) pageTitle = _p('page.tag') + ': ' + page.tag
 - else if (is_category()) pageTitle = _p('page.category') + ': ' + page.category
 - else if (is_current('/404.html', [strict])) pageTitle = _p('error404')
@@ -35,7 +35,7 @@ link(rel="canonical" href=urlNoIndex())
 
 //- PWA
 if (theme.pwa && theme.pwa.enable)
-  !=partial('includes/head/pwa', {}, {cache: true})
+  !=partial('includes/head/pwa', {}, {cache: true}) 
 
 //- main css
 link(rel='stylesheet', href=url_for(theme.asset.main_css))
@@ -61,7 +61,7 @@ if theme.blog_title_font &&　theme.blog_title_font.font_link
 !=partial('includes/head/config', {}, {cache: true})
 
 include ./head/config_site.pug
-include ./head/noscript.pug
+include ./head/noscript.pug 
 
 !=fragment_cache('injectHeadJs', function(){return inject_head_js()})
 

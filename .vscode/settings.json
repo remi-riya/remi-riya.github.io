@@ -1,11 +1,10 @@
 {
-    "commentTranslate.source": "intellsmi.comment-translate-ali.cloud",
-    "commentTranslate.multiLineMerge": true,
+    "commentTranslate.source": "Bing",
+    "commentTranslate.multiLineMerge": false,
     "commentTranslate.translationAli.accessKeyId": "",
     "commentTranslate.translationAli.accessKeySecret": "",
     "commentTranslate.maxTranslationLength": 1000,
     "commentTranslate.ignore": [
-
         {
             "languageId": "javascript,typescript,javascriptreact,typescriptreact",
             "regular": "[\\*\\s]+"
@@ -14,5 +13,8 @@
             "languageId": "dart",
             "regular": "[\\s|/]+"
         }
-    ]
+    ],
+    "commentTranslate.hover.concise": true,
+    "markdown.extension.completion.enabled": false,
+    "markdown.extension.print.absoluteImgPath": false
 }

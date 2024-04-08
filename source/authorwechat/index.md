@@ -6,4 +6,5 @@ tags:
 aside: false
 top_img: false
 ---
-![](/img/wechat.jpg)
+
+不怎么用微信_(:з)∠)_

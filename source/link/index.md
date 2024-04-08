@@ -7,26 +7,28 @@ aside: false
 ---
 
 {% note info simple %}
-# 友链申请须知：
+
+# 友链申请须知
+
 1.您的网站类型为==个人博客==
 2.能正常访问
 3.请先添加我的友链至贵站，然后在下面留下评论，按照下面的格式填写信息
 4.您的网站不要出现不安全提示！
 {% endnote %}
 
-# 我的友链：
+# 我的友链
 
 {% note success simple %}
 
 ```yaml
-- name: Echocbx
-  link: https://ezgx.site/
-  avatar: https://wlopck.gitee.io/img/avatar.png
-  descr: 欢迎光临异次元
-  siteshot: https://pic.imgdb.cn/item/64061c93f144a01007f083cb.jpg
+- name: remi-riya
+  link: https://remi-riya.github.io/
+  avatar: https://z1.ax1x.com/2023/11/25/pi0ViSP.jpg
+  descr: 嘿嘿嘿=￣ω￣=
 ```
 
 {% endnote %}
+<!--  siteshot: https://pic.imgdb.cn/item/64061c93f144a01007f083cb.jpg -->
 
 <!-- 不要删除以下html部分
 <div class="addBtn">
@@ -43,6 +45,7 @@ aside: false
 <script src="/js/kslink.js"></script> -->
 
 # 申请友链
+
 {% note primary simple %}
 <center style="width:fit-content;margin:auto;">
 
