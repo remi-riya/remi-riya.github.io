@@ -14,14 +14,9 @@
   "dependencies": {
     "@renbaoshuo/markdown-it-katex": "^2.0.2",
     "cuid": "^2.1.8",
-<<<<<<< HEAD
-    "ejs": "^2.5.5",
-    "hexo": "^6.3.0",
     "hexo-abbrlink": "^2.2.1",
-=======
     "ejs": "^3.1.10",
     "hexo": "^7.2.0",
->>>>>>> 1e8d2218e1130451864a3a1096fa0ac48ed6ec69
     "hexo-asset-image": "^1.0.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
