@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><link rel="stylesheet" type="text/css" href="/css/nerd.css"><link rel="stylesheet" type="text/css" href="/css/loading.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-swiper-marcus/lib/skills.min.css"><link rel="preload" as="style" type="text/css" href="/css/nerd.css"><link rel="preload" as="font" type="font/ttf" href="/fonts/font.woff2" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><script async="" data-pjax="" src="/js/custom.js"></script><script src="/js/random.js"></script><script async="" src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script><script async="" src="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/index.js"></script><script async="" data-pjax="" src="/js/linksbar.js"></script><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CMake学习笔记 | remi-riyaの博客</title><meta name="author" content="remi-riya"><meta name="copyright" content="remi-riya"><meta name="format-detection" content="telephone=no"><meta name="theme-color"><meta name="description" content="由于大部分情况下只有在项目创建时才会写一下CMake，甚至在用了项目模板之后连创建的时候也不需要写，因此老是忘记一些东西要怎么写，故写个笔记方便以后查看。目前只记录一些最常用的函数，后续再逐渐补充，并添加一些教程。 特性  在CMake中不论Linux还是Windows都使用&#x2F;作为路径分割符  常用函数 通用函数   cmake_minimum_required 这个函数用来指定脚本所需的CMak">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMake学习笔记">
+<meta property="og:url" content="https://remi-riya.github.io/posts/43493/index.html">
+<meta property="og:site_name" content="remi-riyaの博客">
+<meta property="og:description" content="由于大部分情况下只有在项目创建时才会写一下CMake，甚至在用了项目模板之后连创建的时候也不需要写，因此老是忘记一些东西要怎么写，故写个笔记方便以后查看。目前只记录一些最常用的函数，后续再逐渐补充，并添加一些教程。 特性  在CMake中不论Linux还是Windows都使用&#x2F;作为路径分割符  常用函数 通用函数   cmake_minimum_required 这个函数用来指定脚本所需的CMak">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/64039f55f144a010077911ee.jpg">
+<meta property="article:published_time" content="2025-02-03T20:15:29.000Z">
+<meta property="article:modified_time" content="2025-03-12T07:36:20.906Z">
+<meta property="article:author" content="remi-riya">
+<meta property="article:tag" content="CMake">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/64039f55f144a010077911ee.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://remi-riya.github.io/posts/43493/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://npm.elemecdn.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://npm.elemecdn.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CMake学习笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2025-03-12 15:36:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="remi-riyaの博客" type="application/atom+xml">
+</head><body><link rel="stylesheet" href="/css/loading.css"/><script src="https://npm.elemecdn.com/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="menus_items"><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 本站</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/"><i class="fa-fw fas fa-house-user"></i><span> 首页</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-link"></i><span> 链环</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/sites/"><i class="fa-fw fas fa-star"></i><span> 站长推荐</span></a></li><li><a class="site-page child" href="/atom.xml"><i class="fa-fw fas fa-rss"></i><span> RSS</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-commenting"></i><span> 找我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言</span></a></li><li><a class="site-page child" href="/authorqq/"><i class="fa-fw fab fa-qq"></i><span> QQ</span></a></li><li><a class="site-page child" href="/authorwechat/"><i class="fa-fw fab fa-weixin"></i><span> 博主微信</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/remi-riya"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-address-card"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/cc/"><i class="fa-fw fab fa-creative-commons"></i><span> 协议</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://dimension.ezgx.site/"><i class="fa-fw fas fa-wand-magic-sparkles"></i><span> 主题</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.imgdb.cn/item/64039f55f144a010077911ee.jpg')"><nav id="nav"><div id="toggle-menu"><a class="site-page"><i class="fas fa-grip-vertical"></i></a></div><span id="blog_name"><a id="site-name" href="/"><div class="title">remi-riyaの博客</div><i class="fa-solid fa-house"></i></a></span><div class="mask-name-container"><center id="name-container"><a id="page-name" onclick="btf.scrollToDest(0,500)"></a></center><div class="nav-button" id="nav-totop"><a class="totopbtn"><i class="fas fa-arrow-up"></i><span id="percent" onclick="btf.scrollToDest(0,500)">0</span></a></div></div><div id="menus"><div class="nav-button" id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="nav-button console-button"><a class="link" onclick="heo.showConsole()"><i class="fas fa-circle-plus fa-xl fa-beat"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 本站</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/"><i class="fa-fw fas fa-house-user"></i><span> 首页</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-link"></i><span> 链环</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/sites/"><i class="fa-fw fas fa-star"></i><span> 站长推荐</span></a></li><li><a class="site-page child" href="/atom.xml"><i class="fa-fw fas fa-rss"></i><span> RSS</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-commenting"></i><span> 找我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/comments/"><i class="fa-fw fas fa-comments"></i><span> 留言</span></a></li><li><a class="site-page child" href="/authorqq/"><i class="fa-fw fab fa-qq"></i><span> QQ</span></a></li><li><a class="site-page child" href="/authorwechat/"><i class="fa-fw fab fa-weixin"></i><span> 博主微信</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/remi-riya"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-address-card"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/cc/"><i class="fa-fw fab fa-creative-commons"></i><span> 协议</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://dimension.ezgx.site/"><i class="fa-fw fas fa-wand-magic-sparkles"></i><span> 主题</span></a></li></ul></div></div></div></nav><div id="post-info"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CMake/">CMake</a></div><h1 class="post-title">CMake学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-03T20:15:29.000Z" title="发表于 2025-02-04 04:15:29">2025-02-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-12T07:36:20.906Z" title="更新于 2025-03-12 15:36:20">2025-03-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><div id="console"><div class="close-btn" onclick="heo.hideConsole()"><i class="fas fa-circle-xmark"></i></div><div class="console-webinfo"><div class="console-webinfo-card"><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line fa-bounce"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name"><i class="fas fa-folder-open fa-beat"></i><div class="text">文章总数</div></div><div class="item-count">13</div></div><div class="webinfo-item"><div class="item-name"><i class="fas fa-clock fa-shake"></i><div class="text">建站天数</div></div><div class="item-count" id="runtimeshow" data-publishDate="2022-08-12T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name"><i class="fas fa-pen-to-square fa-beat"></i><div class="text">全站字数</div></div><div class="item-count">25.4k</div></div><div class="webinfo-item"><div class="item-name"><i class="fas fa-upload fa-shake"></i><div class="text">最后更新</div></div><div class="item-count" id="last-push-date" data-lastPushDate="2025-03-12T07:45:21.471Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" onclick="toRandomPost()" title="随机文章"><i class="fas fa-shuffle fa-beat" style="font-size: 1rem;"></i></a></div><div class="console-btn-item"><a class="assist-btn" target="_blank" rel="noopener" href="https://travellings.cn/go.html" title="友链接力"><i class="fas fa-bus fa-beat" style="font-size: 1rem;"></i></a></div><div class="console-btn-item"><a class="assist-btn" onclick="btf.scrollToDest(0,500), heo.hideConsole()"><i class="fas fa-arrows-up-to-line fa-beat" style="font-size: 1rem;"></i></a></div></div><div class="console-mask"></div></div><main class="layout" id="content-inner"><div id="post"><div class="dimension-toc"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">通用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3"><span class="toc-number">2.2.</span> <span class="toc-text">文件相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%93%E7%9B%B8%E5%85%B3"><span class="toc-number">2.3.</span> <span class="toc-text">库相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E7%9B%B8%E5%85%B3"><span class="toc-number">2.4.</span> <span class="toc-text">构建相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#target-%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.</span> <span class="toc-text">target_ 相关函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">命令行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="toc-number">4.</span> <span class="toc-text">内置变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">基本使用</span></a></li></ol></div></div></div><article class="post-content" id="article-container"><p>由于大部分情况下只有在项目创建时才会写一下CMake，甚至在用了项目模板之后连创建的时候也不需要写，因此老是忘记一些东西要怎么写，故写个笔记方便以后查看。目前只记录一些最常用的函数，后续再逐渐补充，并添加一些教程。</p>
+<h2 id="特性">特性</h2>
+<ul>
+<li>在CMake中不论Linux还是Windows都使用<code>/</code>作为路径分割符</li>
+</ul>
+<h2 id="常用函数">常用函数</h2>
+<h3 id="通用函数">通用函数</h3>
+<ul>
+<li>
+<p><code>cmake_minimum_required</code><br>
+这个函数用来指定脚本所需的CMake最低版本，比如你用到了一些高版本CMake的语法，就可以用这个函数来指定最低版本，一般放在CMakeLists.txt的第一行，比如<code>cmake_minimum_required(VERSION 3.13)</code>。</p>
+</li>
+<li>
+<p><code>project</code><br>
+指定项目名称，LANGUAGES字段可以指定项目使用的语言，目前支持以下语言：</p>
+<ul>
+<li>C，C语言</li>
+<li>CXX，C++</li>
+<li>ASM，汇编</li>
+<li>Fortran，Fortran语言</li>
+<li>CUDA，英伟达的CUDA</li>
+<li>OBJC，苹果的Objective-C</li>
+<li>OBJCXX，苹果的Objective-C++</li>
+<li>ISPC，一种英特尔的自动SIMD编程语言<br>
+VERSION字段可以指定项目版本，CMake使用x.y.z这样的版本号，<br>
+简单的示例<code>project(test LANGUAGES CXX C)</code>。</li>
+</ul>
+</li>
+<li>
+<p><code>message</code><br>
+输出信息，可以指定信息类型，支持以下类型</p>
+<ul>
+<li>STATUS 正常的信息</li>
+<li>WARNING 输出警告，不会中断脚本</li>
+<li>AUTHOR_WARNING 只对作者的警告，可以通过命令行<code>-Wno-dev</code>关闭</li>
+<li>SEND_ERROR 错误，会中断构建，但会继续执行脚本</li>
+<li>FATAL_ERROR 错误，会中断脚本运行<br>
+简单示例<code>message(STATUS &quot;sources: $&#123;sources&#125;&quot;)</code></li>
+</ul>
+</li>
+<li>
+<p><code>set</code><br>
+这个函数用来定义变量，比如<code>set(sources main.cpp)</code>，即定义一个sources变量存储main.cpp文件。通过<code>$&#123;sources&#125;</code>来使用变量。除了自定义变量外，也可以用来改变CMake内置变量的值，比如<code>set(CMAKE_CXX_STANDARD 20)</code>，即设置C++标准为C++20，使用CMAKE开头的一般都是CMake的内置变量，用来定义相关的配置。</p>
+</li>
+</ul>
+<h3 id="文件相关">文件相关</h3>
+<ul>
+<li><code>file</code><br>
+这个函数用来批量查找文件，比如<code>file(GLOB sources *.cpp *.h)</code>，就会搜索所有后缀为cpp和h的文件，并存在sources变量中。把GLOB改为GLOB_RECURSE就会递归的搜索子目录。在大型项目中一般不使用，因为不会自动添加文件，如果新增了文件需要重新配置cmake，并且文件数量过多时可能导致性能问题，当然个人项目还是很方便的，可以使用CONFIGURE_DEPENDS选项来自动更新文件列表，比如<code>file(GLOB sources CONFIGURE_DEPENDS *.cpp)</code>。</li>
+</ul>
+<h3 id="库相关">库相关</h3>
+<ul>
+<li><code>add_library</code><br>
+添加一个库，可以选择静态库还是动态库。<br>
+简单示例</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib STATIC mylib.cpp) <span class="comment"># 静态库</span></span><br><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.cpp) <span class="comment"># 动态库</span></span><br></pre></td></tr></table></figure>
+<p>除了常规的静态库动态库外，CMake还可以使用一种特殊的对象库，对象库和静态库类似，但是不生成静态库文件，只是CMake内部组织代码的一种方式，可以认为是一种逻辑上的库。使用方式<code>add_library(mylib OBJECT mylib.cpp)</code>。</p>
+<ul>
+<li><code>find_package</code><br>
+查找指定库文件并生成伪对象，可以用<code>COMPONENTS</code>指定组件，<code>REQUIRED</code>指定找不到时报错。在linux下，这个函数会在<code>/usr/lib/cmake</code>目录下寻找对应库的配置文件（{包名}Config.cmake，例如ClangConfig.cmake），生成伪对象，包含了include路径等信息，在链接时这些配置会扩散到构建目标上，无需单独配置。在Windows上则需要额外的配置，推荐的做法是定义<code>&#123;包名&#125;_DIR</code>的变量指向配置文件所在路径，比如定义<code>Qt5_DIR</code>指向<code>D:/Qt/5.15.2/msvc2019_64/lib/cmake</code>。对于Qt这种有多个组件的库，必须指定组件。<br>
+简单示例</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(Qt5 REQUIRED COMPONENTS Core Gui Widgets)</span><br><span class="line"><span class="keyword">add_executable</span>(<span class="keyword">test</span> main.cpp mainwindow.h mainwindow.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="keyword">test</span> PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets)</span><br></pre></td></tr></table></figure>
+<h3 id="构建相关">构建相关</h3>
+<ul>
+<li><code>add_executable</code><br>
+这个函数用来添加一个可执行文件作为构建目标，比如<code>add_executable(main main.cpp)</code>，就是使用main.cpp文件构建main这个可执行文件，可以用空格分割多个文件。</li>
+</ul>
+<h3 id="target-相关函数">target_ 相关函数</h3>
+<p>这个系列的函数都是作用与一个对象</p>
+<ul>
+<li><code>target_sources</code><br>
+给目标添加源文件，简单示例</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">target_sources</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>target_link_libraries</code><br>
+给目标链接库。</li>
+</ul>
+<h2 id="命令行">命令行</h2>
+<ul>
+<li>
+<p><code>cmake -B</code><br>
+指定build目录，一般用法为<code>cmake -B build</code>，会自动创建build目录并生成项目文件</p>
+</li>
+<li>
+<p><code>cmake --build</code><br>
+开始构建，一般用法为<code>cmake --build build</code></p>
+</li>
+<li>
+<p><code>cmake -D</code><br>
+配置CMake变量，比如<code>cmake -DCMAKE_BUILD_TYPE=Release</code>，即设置构建类型为release。-D指令设置的是缓存变量，也就是说会写入CMakeCache.txt，下一次执行cmake命令时就不需要再次设置。</p>
+</li>
+<li>
+<p><code>cmake -G</code><br>
+指定生成器，比如<code>cmake -GNinja</code>，若不指定，则在Linux上默认使用Makefile，Windows上默认使用MSBuild。由于Ninja跨平台，性能好，一般都使用Ninja。</p>
+</li>
+</ul>
+<h2 id="内置变量">内置变量</h2>
+<ul>
+<li>
+<p><code>CMAKE_BUILD_TYPE</code><br>
+指定构建类型，有以下四种：</p>
+<ul>
+<li>Debug 调试模式，包含调试信息</li>
+<li>Release 发布模式，优化程度最高</li>
+<li>MinSizeRel 最小体积发布，生成文件较Release小，节省空间</li>
+<li>RelWithDebInfo 带调试信息的发布，较Release比多了调试信息</li>
+</ul>
+</li>
+</ul>
+<p>默认空字符串，此时为Debug模式。</p>
+<ul>
+<li>
+<p><code>CMAKE_CURRENT_SOURCE_DIR</code><br>
+当前CMakeLists.txt所在的路径</p>
+</li>
+<li>
+<p><code>CMAKE_CURRENT_BINARY_DIR</code><br>
+当前输出目录的位置</p>
+</li>
+<li>
+<p><code>PROJECT_SOURCE_DIR</code><br>
+当前项目的源文件路径，也就是使用了<code>project</code>的CMakeLists.txt所在的路径。</p>
+</li>
+<li>
+<p><code>PROJECT_NAME</code><br>
+当前项目名</p>
+</li>
+<li>
+<p><code>PROJECT_VERSION</code><br>
+当前项目版本号</p>
+</li>
+<li>
+<p><code>CMAKE_CXX_STANDARD</code><br>
+C++标准版本</p>
+</li>
+<li>
+<p><code>CMAKE_CXX_STANDARD_REQUIRED</code><br>
+BOOL类型的变量，表示是否一定要支持设定的C++标准，若设置为ON则会在编译器不支持时报错。</p>
+</li>
+<li>
+<p><code>CMAKE_CXX_EXTENSIONS</code><br>
+是否支持编译器扩展，比如GCC支持C99的一些特殊写法，但这些写法在标准C++里是没有的，如果要兼容性就会设置为OFF。</p>
+</li>
+</ul>
+<h2 id="基本使用">基本使用</h2>
+<p>一个简单的CMake脚本主要由以下几个部分组成</p>
+<ol>
+<li>配置基本设置，如cmake版本要求，C++标准，项目名等</li>
+<li>寻找三方库</li>
+<li>收集源文件</li>
+<li>添加构建目标</li>
+<li>链接库</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>CMake学习笔记</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://remi-riya.github.io/posts/43493/">https://remi-riya.github.io/posts/43493/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a" style="display: inline-block;width: 120px"><h>作者</h><div class="post-copyright-cc-info"><h>remi-riya</h></div></div><div class="post-copyright-c" style="display: inline-block;width: 120px"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-02-04</h></div></div><div class="post-copyright-u" style="display: inline-block;width: 120px"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-03-12</h></div></div><div class="post-copyright-c" style="display: inline-block;width: 120px"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="/cc/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY 4.0" href="/cc/">CC BY 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CMake/">CMake</a></div><div class="post_share"><div class="social-share" data-image="https://pic.imgdb.cn/item/64039f55f144a010077911ee.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://npm.elemecdn.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://npm.elemecdn.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/52837/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/64039fd0f144a01007796d4a.jpg" onerror="onerror=null;src='https://ezgx.site/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">牛客暑期多校第一场I-Mirror Maze</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener external nofollow" href="https://home.ezgx.site/" title="主题"><i class="fa-solid fa-compass"></i></a><a class="deal_link" target="_blank" rel="noopener external nofollow" href="https://res.abeim.cn/api/qq/?qq=3434157830" title="联系QQ"><i class="fa-brands fa-qq"></i></a><a class="deal_link" href="/authorwechat/" title="联系微信"><i class="fa-brands fa-weixin"></i></a><img class="footer_mini_logo entered loading" style="border-radius:50%" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/arcaea.jpg" onclick="btf.scrollToDest(0,500)" title="返回顶部"/><a class="deal_link" target="_blank" rel="noopener external nofollow" href="https://github.com/remi-riya" title="Github"><i class="fa-brands fa-github"></i></a><a class="deal_link" href="/comments/" title="留言"><i class="fa-solid fa-comment"></i></a><a class="deal_link" target="_blank" rel="noopener external nofollow" href="mailto:3434157830@qq.com" title="发送邮件"><i class="fa-solid fa-envelope"></i></a></div><div id="footer-banner"><div class="footer-banner-links"><div class="footer-banner-left"><div class="footer-banner-left"><div id="footer-banner-tips">2023 ©remi-riya</div></div></div><div class="footer-banner-right"><a class="footer-banner-link" target="_blank" rel="noopener" href="https://hexo.io/zh-cn/" title="Hexo">框架：Hexo</a><a class="footer-banner-link">|</a><a class="footer-banner-link" target="_blank" rel="noopener" href="https://github.com/Ezgx/hexo-theme-dimension" title="theme">主题：dimension</a><a class="footer-banner-link">|</a><a class="footer-banner-link" target="_blank" rel="noopener" href="https://github.com/remi-riya" title="about">关于</a><a class="footer-banner-link">|</a><a class="footer-banner-link cc" href="/cc/" title="cc协议"><i class="fab fa-creative-commons"></i><span>协议。</span></a></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://npm.elemecdn.com/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.twikoo.remi-riya.top',
+      region: 'ap-shanghai',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.twikoo.remi-riya.top',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://npm.elemecdn.com/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://npm.elemecdn.com/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://lib.arvancloud.ir/butterfly-extsrc/1.1.3/click-show-text.min.js" data-mobile="true" data-text="No Game,No Life" data-fontsize="16px" data-random="false" async="async"></script><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="hometop.js"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><span id="fps"></span></body></html>
