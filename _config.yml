@@ -141,6 +141,10 @@ markdown:
 #       name: markdown-it-mark
 #       enable: true
 
+# hexo-graphviz
+graphviz:
+  enable: true
+
 feed:
   enable: true
   type: atom
