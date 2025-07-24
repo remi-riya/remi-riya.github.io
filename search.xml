@@ -4,6 +4,64 @@
   
     
     <entry>
+      <title>CMU15-445（2）Project 0</title>
+      <link href="/posts/6458/"/>
+      <url>/posts/6458/</url>
+      
+        <content type="html"><![CDATA[<p>主要记录一些注意事项</p><h2 id="关于第一次运行项目的一些坑">关于第一次运行项目的一些坑</h2><p>本地测试都使用了DISABLE标记，需要加上参数<code>--gtest_also_run_disabled_tests</code>才能运行测试用例，一种方便的解决方法是这样配置<code>launch.json</code>文件</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Debug disabled test&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;command:cmake.launchTargetPath&#125;&quot;</span><span class="punctuation">,</span> <span class="comment">// 选择cmake设置的目标启动</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;--gtest_also_run_disabled_tests&quot;</span><span class="punctuation">,</span>  <span class="comment">// 加上参数</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Enable pretty-printing for gdb&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/bin/gdb&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure><p>另外，CMake的生成目标中，不能选择ALL，因为测试文件都被手动排除出了ALL，可以选择<code>build-tests</code>或者单独选择当前要启动的测试。<br>还有生成器建议选择<code>Ninja Multi-Config</code>，这样在切换Debug和Release时不需要重复编译，在执行对应指令如打包源文件时只需要把<code>make</code>换成<code>ninja</code>即可。</p><h2 id="关于C-的一些坑">关于C++的一些坑</h2><p><code>std::bitset</code>在用数字进行初始化时使用小端序，下标0对应最低位，因此在计算最高位1时下标应从大往小变化。</p><h2 id="关于测试的一些坑">关于测试的一些坑</h2><p>在初始化时需要进行检查<code>n_bits</code>是否为负数，是负数就不做任何事，否则边界测试过不了。<br>提交前建议先本地运行check-clang-tidy进行检查，这是很容易被忽视的一点，CMU15-445的clang-tidy开启了较多的检查，很容易过不了。</p><h2 id="关于Task">关于Task</h2><p>Task1没什么好说的，比较简单，主要是Task2，我开始一直没懂什么意思~~（因为我感觉这个溢出额外开桶的操作非常意义不明，有必要省这点内存吗）~~，最后才发现就是把本来的值分成两部分存，低4位存在初始的桶里，如果有高3位就放在哈希表中，计算时再合并处理。建议是单独写个辅助函数计算一个index对应的值，因为在插入时需要和总的值比较大小，不能像Task1一样直接跟数组里的值取个max。<br>至于取前几位后几位，个人感觉直接用数字更方便，不知道为什么要转成bitset，最高位1用<code>std::__lg</code>（C++20可以用<code>std::bit_width</code>，但是不建议升级C++标准，编译会报一堆错，主要是跟模板相关，新的C++标准对模板的一些东西有了更严格的限制），最低位1用<code>lowbit（x &amp; -x）</code>，都很方便。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CS </tag>
+            
+            <tag> 数据库 </tag>
+            
+            <tag> CMU15-445 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CMU15-445（1）Database</title>
+      <link href="/posts/56817/"/>
+      <url>/posts/56817/</url>
+      
+        <content type="html"><![CDATA[<p>暂时只是零散的记录一些东西，等有了整体的认知之后再整理</p><hr><p>数据库领域最重要的一句话： <strong>天下没有免费的午餐</strong>，各种设计都有其优缺点。</p><p>数据库系统结构，从上往下</p><ol><li>Query Plan 查询计划</li><li>Operator Execution 执行操作</li><li>Access Methods 访问方法（向上提供访问方法）</li><li>Buffer Pool Manager 缓冲区管理器（将磁盘内容载入内存）</li><li>Disk Manager 磁盘管理器</li></ol><hr><p>Page</p><ul><li>硬件Page，通常大小为4kb，操作是原子的</li><li>操作系统Page，通常大小为4kb，有巨页</li><li>数据库系统Page，数据库系统自己定义的Page</li></ul><p>面向元组存储</p><p>行存储常使用槽页，槽数组从前往后扩展，元组从后往前扩展。槽数组存储偏移值。</p><p>日志结构存储</p><p>内存中有一个mem表，用于快速更新，如果mem表满了就写入disk中的SSTable，在disk中有层级，每当一层满了后就合并SSTable并将新的SSTable放入下一层级。</p><p>缺点：元组生命周期伴随整个数据库，</p><p>索引组织存储</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CS </tag>
+            
+            <tag> 数据库 </tag>
+            
+            <tag> CMU15-445 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CMU15-445（0）开始</title>
       <link href="/posts/10551/"/>
       <url>/posts/10551/</url>
