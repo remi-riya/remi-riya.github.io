@@ -14,7 +14,7 @@
   "dependencies": {
     "@renbaoshuo/markdown-it-katex": "^2.0.2",
     "cuid": "^3.0.0",
-    "ejs": "^3.1.10",
+    "ejs": "^5.0.2",
     "hexo": "^8.1.2",
     "hexo-abbrlink": "^2.2.1",
     "hexo-asset-image": "^1.0.0",
